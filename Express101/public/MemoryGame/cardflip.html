@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CardFlipping</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="cardfilp.css"/>
+</head>
+<body>
+    <h1>Card Flipping in CSS!!!</h1>
+
+    <!-- card = 3d cube -->
+    <div class="card">
+        <!-- is a thing to flip -->
+        <div class="card-holder">
+            <!-- is a picture face down inside of card-holder -->
+            <div class="card-front">
+                <img src="marypop.jpeg">
+            </div>
+            <!-- is a picture face up inside of a card-holder -->
+            <div class="card-back">
+                <img src="maryfly.jpeg">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $('.card-holder').click(function(){
+            $(this).toggleClass('flip')
+        })
+    </script>
+
+<!-- <label>Change Perspective</label>
+<div id="parent">
+    <div id="threeD">
+        I hope the game is canceled tonight. I am a 3D child.
+    </div>
+    <div id="threeD2">
+        Go Dolphins
+    </div>
+    <div id="threeD3">
+        Go Orioles
+    </div>
+</div> -->
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+        <!-- in form, action = Where to submit the form (url) -->
+    <!-- method = What type of http request (get, post, put, etc.) -->  
+    <form action="/search/movie" method="post">
+        <!-- on an input box, "name" attribute is what the variable -->
+        <!-- will be called, on submission -->
+        <input type="text" name="movieTitle" placeholder="Enter your movie search here" />
+        <input type="button" class="btn btn-primary" value="Search!" />
+    </form>
+</body>
+</html>
