@@ -9,32 +9,16 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-// write some middleware that gets the users ip
-// and saves it so the view can see it
-// we write application level middleware with app.use()
-// appliction level MW = a function with req/res that
-// runs EVERY single request
-app.use((req, res, next)=>{
-  const userIp = req.ip;
-  console.log(userIp);
-  res.locals.ip = userIp;
-  next();
-});
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// app.use is middleware that adds/removes stuff
-// to the req and/or res
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser()); // adds req.cookies
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// use the index.js file in routes 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

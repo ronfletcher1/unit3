@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
+
+const mysql = require('mysql');
 // Our node module, it's in gitignore
-const apiKey = require('../config');
+const config = require('../config');
+const connection = mysql.createConnection(config.db);
+connection.connect();
+const bcrypt = require('bcrypt-nodejs');
+
 const apiBaseUrl = 'http://api.themoviedb.org/3';
 const imageBaseUrl = 'http://image.tmdb.org/t/p/w300';
-const nowPlayingUrl = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
+const nowPlayingUrl = `${apiBaseUrl}/movie/now_playing?api_key=${config.apiKey}`;
 // console.log(nowPlayingUrl)
+
 
 // HOW we would do it in front-end
 // wont work now!
@@ -16,6 +23,8 @@ const request = require('request');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   request.get(nowPlayingUrl,(error,response,body)=>{
+    console.log(nowPlayingUrl)
+    if(error){throw error;}
     // console.log(typeof(body));
     const parsedData = JSON.parse(body);
     // console.log(parsedData);
@@ -43,16 +52,61 @@ router.post('/search/movie',(req, res)=>{
   // querystring data, is in req.query
   // posted data, is in req.body
   const movieTitle = req.body.movieTitle;
+  // in php
+  // $_POST['movieTitle']
+  // in ruby
+  // :params['movieTitle']
+  // Python/ Flask
+  // request.form['movieTitle']
+
   // res.json(req.body);
-  const searchUrl = `${apiBaseUrl}/search/movie?query=${movieTitle}&api_key=${apiKey}`;
+  const searchUrl = `${apiBaseUrl}/search/movie?query=${movieTitle}&api_key=${config.apiKey}`;
   request.get(searchUrl,(error,response,body)=>{
     const parsedData = JSON.parse(body);
     res.render('now_playing',{
-    imageBaseUrl,
-    parsedData: parsedData.results
+      imageBaseUrl,
+      parsedData: parsedData.results
     })
   })
 });
 
+router.get('/login',(req, res)=>{
+  res.render('login')
+})
+
+router.post('/loginProcess',(req, res)=>{
+  const insertQuery = `INSERT into users (email,password)
+      VALUES
+    (?,?)`
+    const x = bcrypt.hashSync("req.body.password");    
+  connection.query(insertQuery,[req.body.email,x],(error, results)=>{
+    
+    if(error){
+      throw error;
+    }else{
+      res.json(x)
+    }
+  })
+
+})
 
 module.exports = router;
+
+
+
+const CARCOLOR = Symbol();
+const CARMAKE = Symbol();
+class Car{
+  constructor(color,make){
+    console.log(color)
+    this[CARCOLOR] = color;
+    this[CARMAKE] = make;
+  }
+  get color(){
+    console.log("Getting color");
+    console.log(this)
+    return this[CARCOLOR];
+  }
+}
+let myCar = new Car('Red','Chevy');
+console.log(myCar.color)
